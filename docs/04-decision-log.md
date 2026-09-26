@@ -178,3 +178,23 @@ abstractions.
 **Decision:** Use “AI Product Architect” rather than “AI Business Architect” or “AI Solution Architect.”
 
 **Reason:** “Business architect” understates the cloud/model/deployment depth, while “solution architect” risks making the economics and monetization loop feel secondary. “Product” keeps the technical and commercial architecture centered on the AI product the customer is building.
+
+------------------------------------------------------------------------
+
+## DEC-016 --- Use JSON Schema and TypeScript for the initial domain contract
+
+**Decision:** JSON Schema Draft 2020-12 is the canonical, language-neutral
+domain contract. The initial validator and tests use TypeScript on Node.js,
+Ajv for runtime schema validation, and Vitest for tests.
+
+**Reason:** The first milestone needs portable schemas, strict deterministic
+validation, and focused tests without committing the product ontology to an
+application framework. TypeScript provides a small implementation surface for
+the initial validator and is compatible with the likely web and service
+boundaries, while JSON Schema remains authoritative.
+
+**Does not mean:** TypeScript types replace runtime validation, generated types
+are required, or the application framework has been selected.
+
+**Revisit when:** implementation beyond the domain boundary demonstrates a
+material requirement that this stack cannot meet.

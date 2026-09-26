@@ -1,0 +1,455 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jillianchi/ai-product-architect/schemas/product-design.schema.json",
+  "title": "AI Product Architect ProductDesign",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "business",
+    "workload",
+    "constraints",
+    "architecture",
+    "economics",
+    "commercialModel",
+    "deployment"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "business": { "$ref": "#/$defs/business" },
+    "workload": { "$ref": "#/$defs/workload" },
+    "constraints": { "$ref": "#/$defs/constraints" },
+    "architecture": { "$ref": "#/$defs/architecture" },
+    "economics": { "$ref": "#/$defs/economics" },
+    "commercialModel": { "$ref": "#/$defs/commercialModel" },
+    "deployment": { "$ref": "#/$defs/deployment" }
+  },
+  "$defs": {
+    "provenance": {
+      "enum": ["user", "assumption", "benchmark", "provider_source", "derived"]
+    },
+    "confidence": { "enum": ["low", "medium", "high"] },
+    "stringFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": { "type": "string", "minLength": 1 },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceReference": { "type": "string", "minLength": 1 }
+      }
+    },
+    "numberFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": { "type": "number", "minimum": 0 },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceReference": { "type": "string", "minLength": 1 }
+      }
+    },
+    "integerFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": { "type": "integer", "minimum": 0 },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceReference": { "type": "string", "minLength": 1 }
+      }
+    },
+    "money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minorUnits", "currency"],
+      "properties": {
+        "minorUnits": { "type": "integer" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+      }
+    },
+    "moneyFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": { "$ref": "#/$defs/money" },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceReference": { "type": "string", "minLength": 1 }
+      }
+    },
+    "derivedMoneyFact": {
+      "allOf": [
+        { "$ref": "#/$defs/moneyFact" },
+        {
+          "type": "object",
+          "properties": { "provenance": { "const": "derived" } }
+        }
+      ]
+    },
+    "derivedNumberFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": { "type": "number" },
+        "provenance": { "const": "derived" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceReference": { "type": "string", "minLength": 1 }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value", "provenance"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "value": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "number" },
+            { "type": "boolean" }
+          ]
+        },
+        "provenance": { "const": "assumption" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "validationTask": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uncertainty", "materialImpact", "proposedValidation"],
+      "properties": {
+        "uncertainty": { "type": "string", "minLength": 1 },
+        "materialImpact": { "type": "string", "minLength": 1 },
+        "proposedValidation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "pattern": {
+      "enum": ["AI_API", "AI_SAAS", "AGENT_SAAS", "ASYNC_AI", "RAG_SAAS"]
+    },
+    "capability": {
+      "enum": [
+        "web_frontend",
+        "authentication",
+        "tenant_management",
+        "api",
+        "agent_runtime",
+        "model_inference",
+        "model_routing",
+        "tool_execution",
+        "sandbox_compute",
+        "retrieval",
+        "database",
+        "object_storage",
+        "queue_orchestration",
+        "secrets",
+        "observability",
+        "usage_tracking",
+        "subscription_billing",
+        "usage_billing",
+        "entitlements"
+      ]
+    },
+    "business": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productDescription": { "$ref": "#/$defs/stringFact" },
+        "targetCustomer": { "$ref": "#/$defs/stringFact" },
+        "geography": { "$ref": "#/$defs/stringFact" },
+        "stage": { "$ref": "#/$defs/stringFact" },
+        "proposedPrice": { "$ref": "#/$defs/moneyFact" },
+        "priorities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/stringFact" }
+        }
+      }
+    },
+    "modelRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route", "sharePercent"],
+      "properties": {
+        "route": { "$ref": "#/$defs/stringFact" },
+        "sharePercent": {
+          "allOf": [
+            { "$ref": "#/$defs/numberFact" },
+            {
+              "type": "object",
+              "properties": { "value": { "type": "number", "maximum": 100 } }
+            }
+          ]
+        }
+      }
+    },
+    "workload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pattern"],
+      "properties": {
+        "pattern": { "const": "AGENT_SAAS" },
+        "billableUsers": { "$ref": "#/$defs/integerFact" },
+        "agentTasksPerUserMonth": { "$ref": "#/$defs/numberFact" },
+        "inputTokensPerTask": { "$ref": "#/$defs/integerFact" },
+        "outputTokensPerTask": { "$ref": "#/$defs/integerFact" },
+        "toolCallsPerTask": { "$ref": "#/$defs/numberFact" },
+        "computeSecondsPerTask": { "$ref": "#/$defs/numberFact" },
+        "storageGbMonth": { "$ref": "#/$defs/numberFact" },
+        "fallbackRatePercent": {
+          "allOf": [
+            { "$ref": "#/$defs/numberFact" },
+            {
+              "type": "object",
+              "properties": { "value": { "type": "number", "maximum": 100 } }
+            }
+          ]
+        },
+        "modelRouting": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/modelRoute" }
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "deploymentCloud": {
+          "allOf": [
+            { "$ref": "#/$defs/stringFact" },
+            {
+              "type": "object",
+              "properties": { "value": { "type": "string", "const": "AWS" } }
+            }
+          ]
+        },
+        "deploymentRegions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/stringFact" }
+        },
+        "dataResidencyRequirements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/stringFact" }
+        },
+        "excludedProviders": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/stringFact" }
+        },
+        "availabilityExpectation": { "$ref": "#/$defs/stringFact" },
+        "complianceConstraints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/stringFact" }
+        },
+        "monthlyBudget": { "$ref": "#/$defs/moneyFact" }
+      }
+    },
+    "implementationSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability", "implementation"],
+      "properties": {
+        "capability": { "$ref": "#/$defs/capability" },
+        "implementation": { "$ref": "#/$defs/stringFact" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "selectedAlternative",
+        "alternativesConsidered",
+        "reasoning",
+        "affectedMetrics",
+        "confidence",
+        "validationRequired"
+      ],
+      "properties": {
+        "decision": { "type": "string", "minLength": 1 },
+        "selectedAlternative": { "type": "string", "minLength": 1 },
+        "alternativesConsidered": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "reasoning": { "type": "string", "minLength": 1 },
+        "affectedMetrics": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "validationRequired": { "type": "boolean" }
+      }
+    },
+    "architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pattern": { "$ref": "#/$defs/pattern" },
+        "requiredCapabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/capability" }
+        },
+        "implementationSelections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/implementationSelection" }
+        },
+        "modelStrategy": { "$ref": "#/$defs/stringFact" },
+        "decisions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/decision" }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/assumption" }
+        },
+        "validationTasks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/validationTask" }
+        }
+      }
+    },
+    "economicsScenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "monthlyRevenue",
+        "modelCogs",
+        "cloudCogs",
+        "toolCogs",
+        "paymentCosts",
+        "totalCostToServe",
+        "contribution",
+        "contributionMarginPercent",
+        "unitRevenue",
+        "unitCost"
+      ],
+      "properties": {
+        "monthlyRevenue": { "$ref": "#/$defs/derivedMoneyFact" },
+        "modelCogs": { "$ref": "#/$defs/derivedMoneyFact" },
+        "cloudCogs": { "$ref": "#/$defs/derivedMoneyFact" },
+        "toolCogs": { "$ref": "#/$defs/derivedMoneyFact" },
+        "paymentCosts": { "$ref": "#/$defs/derivedMoneyFact" },
+        "totalCostToServe": { "$ref": "#/$defs/derivedMoneyFact" },
+        "contribution": { "$ref": "#/$defs/derivedMoneyFact" },
+        "contributionMarginPercent": { "$ref": "#/$defs/derivedNumberFact" },
+        "unitRevenue": { "$ref": "#/$defs/derivedMoneyFact" },
+        "unitCost": { "$ref": "#/$defs/derivedMoneyFact" }
+      }
+    },
+    "economics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scenarios": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["low", "expected", "high"],
+          "properties": {
+            "low": { "$ref": "#/$defs/economicsScenario" },
+            "expected": { "$ref": "#/$defs/economicsScenario" },
+            "high": { "$ref": "#/$defs/economicsScenario" }
+          }
+        }
+      }
+    },
+    "commercialModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "structure": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "provenance"],
+          "properties": {
+            "value": {
+              "enum": ["subscription", "usage", "subscription_usage", "credits"]
+            },
+            "provenance": { "$ref": "#/$defs/provenance" },
+            "confidence": { "$ref": "#/$defs/confidence" },
+            "sourceReference": { "type": "string", "minLength": 1 }
+          }
+        },
+        "billableUnit": { "$ref": "#/$defs/stringFact" },
+        "price": { "$ref": "#/$defs/moneyFact" },
+        "includedAllowance": { "$ref": "#/$defs/numberFact" },
+        "overagePrice": { "$ref": "#/$defs/moneyFact" }
+      }
+    },
+    "architectureSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pattern",
+        "capabilities",
+        "implementationSelections",
+        "targetCloud",
+        "regions",
+        "moduleReferences"
+      ],
+      "properties": {
+        "pattern": { "const": "AGENT_SAAS" },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/capability" }
+        },
+        "implementationSelections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/implementationSelection" }
+        },
+        "targetCloud": { "const": "AWS" },
+        "regions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "moduleReferences": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["not_requested", "draft", "approved"] },
+        "architectureSpec": { "$ref": "#/$defs/architectureSpec" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "approved" } } },
+          "then": {
+            "required": ["architectureSpec"],
+            "properties": { "architectureSpec": true }
+          }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "not_requested" } },
+            "required": ["status"]
+          },
+          "then": { "not": { "required": ["architectureSpec"] } }
+        }
+      ]
+    }
+  }
+}

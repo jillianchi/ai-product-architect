@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "business": {
+    "productDescription": {
+      "value": "AI coding agent",
+      "provenance": "user"
+    },
+    "targetCustomer": {
+      "value": "teams",
+      "provenance": "user"
+    },
+    "proposedPrice": {
+      "value": {
+        "minorUnits": 2000,
+        "currency": "USD"
+      },
+      "provenance": "user"
+    }
+  },
+  "workload": {
+    "pattern": "AGENT_SAAS"
+  },
+  "constraints": {},
+  "architecture": {},
+  "economics": {},
+  "commercialModel": {},
+  "deployment": {
+    "status": "not_requested"
+  }
+}
