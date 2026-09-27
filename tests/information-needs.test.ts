@@ -87,6 +87,34 @@ describe("DevFlow information planning", () => {
     expect(need?.blockingDecisionAreas).not.toContain("opportunity");
   });
 
+  it("limits unsupported value claims without globally blocking opportunity analysis", () => {
+    const need = analyzeInformationNeeds(fixture("devflow-rich")).find(
+      ({ id }) => id === "value-hypothesis-evidence",
+    );
+
+    expect(need?.affects).toContain("opportunity");
+    expect(need?.blockingDecisionAreas).not.toContain("opportunity");
+    expect(need?.blockingDecisionAreas).toEqual([]);
+  });
+
+  it("uses explicit execution mode rather than quantitative workload proxies", () => {
+    const rich = fixture("devflow-rich");
+    expect(
+      analyzeInformationNeeds(rich).some(
+        ({ id }) => id === "agent-execution-characteristics",
+      ),
+    ).toBe(false);
+
+    delete rich.workload.executionMode;
+
+    const need = analyzeInformationNeeds(rich).find(
+      ({ id }) => id === "agent-execution-characteristics",
+    );
+    expect(rich.workload.toolCallsPerTask).toBeDefined();
+    expect(rich.workload.computeSecondsPerTask).toBeDefined();
+    expect(need?.paths).toEqual(["/workload/executionMode"]);
+  });
+
   it("does not turn qualitative hypotheses into numeric assumptions", () => {
     const design = fixture("devflow-sparse");
 

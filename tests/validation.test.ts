@@ -22,10 +22,22 @@ describe("ProductDesign validation", () => {
   });
 
   it("accepts the richer DevFlow AGENT_SAAS design", () => {
-    expect(validateProductDesign(fixture("devflow-rich"))).toEqual({
+    const rich = fixture("devflow-rich");
+    expect(rich.workload.executionMode).toEqual({
+      value: "sandboxed_code_execution",
+      provenance: "user",
+    });
+    expect(validateProductDesign(rich)).toEqual({
       valid: true,
       errors: [],
     });
+  });
+
+  it("rejects an execution mode outside the explicit semantic vocabulary", () => {
+    const rich = fixture("devflow-rich");
+    rich.workload.executionMode.value = "background_agent";
+
+    expect(validateProductDesign(rich).valid).toBe(false);
   });
 
   it("uses absence for unknown values and rejects null", () => {

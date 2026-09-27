@@ -114,6 +114,10 @@
       "provenance": "assumption",
       "confidence": "low"
     },
+    "executionMode": {
+      "value": "sandboxed_code_execution",
+      "provenance": "user"
+    },
     "inputTokensPerTask": {
       "value": 12000,
       "provenance": "assumption",

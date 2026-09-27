@@ -20,6 +20,7 @@ Use `docs/05-research-register.md` before relying on provider pricing, capabilit
 - Provider facts must not come from LLM memory when they materially affect recommendations.
 - Preserve provenance for user facts, assumptions, benchmarks, provider facts, and derived values.
 - Keep evidence, statements, hypotheses, and modelling assumptions epistemically distinct.
+- Be evidence-led, not ideation-led: do not invent capabilities from generic company context without relevant signals or an explicit proposal.
 - Prefer validated deployment modules over arbitrary generated infrastructure.
 - Stripe implements the selected commercial model; Stripe does not define the commercial model.
 - Derive partner relevance from customer need; a partner may be weak or irrelevant.

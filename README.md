@@ -18,6 +18,11 @@ partner relevance → validation → optional deployment
 
 The project deliberately goes beyond generic architecture or IaC generation. Its thesis is that a proposed AI capability should be evaluated as a product opportunity: customer value and evidence come first, while model, cloud, workload, and operational choices validate the opportunity through incremental cost and commercial consequences.
 
+AI Product Architect is evidence-led, not ideation-led. It evaluates explicit
+proposals or synthesizes grounded hypotheses from relevant signals; it does not
+brainstorm speculative AI capabilities from an account name and generic
+company context.
+
 ## V1
 
 V1 focuses on an `AGENT_SAAS` vertical slice:

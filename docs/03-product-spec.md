@@ -37,7 +37,8 @@ optional AWS deployment specification.
 2.  The system records what is known with provenance and leaves absent values
     unknown.
 3.  The system forms explicit why-change, why-now, and customer-value
-    hypotheses without presenting unsupported hypotheses as facts.
+    hypotheses from an explicit proposal or sufficient relevant signals,
+    without presenting unsupported hypotheses as facts.
 4.  The system identifies evidence and material information needs.
 5.  Each information need may eventually be routed to authoritative research,
     explicit hypothesis, scenario modelling, the current user, future customer
@@ -137,7 +138,15 @@ second persistent requirements model. It should eventually capture:
 -   recommended acquisition method;
 -   whether it blocks meaningful progress.
 
-No `InformationNeed` engine is part of the current domain-contract milestone.
+The current deterministic `InformationNeed` analyzer covers only material rules
+exercised by the DevFlow fixtures. It does not perform acquisition, research,
+question phrasing, or natural-language opportunity generation.
+
+The product is evidence-led, not ideation-led. Generic company context such as
+"DevFlow is a developer collaboration company" is insufficient to generate an
+AI opportunity. In that case the system should expose insufficient signal and
+identify useful evidence needs. It must not brainstorm speculative capabilities
+and then manufacture justification.
 
 ## 5. Provenance and epistemic status
 

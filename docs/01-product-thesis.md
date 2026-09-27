@@ -69,6 +69,17 @@ distinguishable.
 
 ## 5. Opportunity before solution
 
+AI Product Architect is evidence-led, not ideation-led. An explicit proposal
+can be evaluated directly. Relevant signals or evidence may support synthesis
+of a grounded opportunity hypothesis. Generic company or account context alone
+is insufficient and must not trigger speculative AI-capability brainstorming
+followed by post-hoc justification.
+
+The intended direction is:
+
+Evidence/signals → grounded opportunity hypothesis → value hypotheses →
+validation → architecture ↔ economics ↔ commercial design.
+
 The product should help answer, in roughly this order:
 
 1.  What is the current product and business context?
@@ -115,6 +126,8 @@ opportunity is weak or absent.
 ## 7. Product principles
 
 -   Start with the customer opportunity, not a predetermined partner fit.
+-   Synthesize opportunities only from an explicit proposal or sufficient
+    relevant evidence/signals.
 -   Normalize capabilities before mapping to providers.
 -   Use LLMs for reasoning, not as the database of provider facts.
 -   Use deterministic code for economics.

@@ -64,6 +64,19 @@
         "sourceReference": { "type": "string", "minLength": 1 }
       }
     },
+    "executionModeFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": {
+          "enum": ["advisory_only", "tool_use", "sandboxed_code_execution"]
+        },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceReference": { "type": "string", "minLength": 1 }
+      }
+    },
     "money": {
       "type": "object",
       "additionalProperties": false,
@@ -313,6 +326,7 @@
         "pattern": { "const": "AGENT_SAAS" },
         "billableUsers": { "$ref": "#/$defs/integerFact" },
         "agentTasksPerUserMonth": { "$ref": "#/$defs/numberFact" },
+        "executionMode": { "$ref": "#/$defs/executionModeFact" },
         "inputTokensPerTask": { "$ref": "#/$defs/integerFact" },
         "outputTokensPerTask": { "$ref": "#/$defs/integerFact" },
         "toolCallsPerTask": { "$ref": "#/$defs/numberFact" },

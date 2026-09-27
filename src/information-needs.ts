@@ -101,7 +101,7 @@ export function analyzeInformationNeeds(productDesign: unknown): InformationNeed
         reason:
           "The appropriate source depends on whether relevant evidence is public, already known by the current operator, or must be discovered with customers.",
       },
-      blockingDecisionAreas: ["opportunity"],
+      blockingDecisionAreas: [],
       materiality: "high",
     });
   }
@@ -127,15 +127,14 @@ export function analyzeInformationNeeds(productDesign: unknown): InformationNeed
   }
 
   const executionPaths = unresolvedPaths(productDesign, [
-    "/workload/toolCallsPerTask",
-    "/workload/computeSecondsPerTask",
+    "/workload/executionMode",
   ]);
   if (executionPaths.length > 0) {
     needs.push({
       id: "agent-execution-characteristics",
-      summary: "The agent's tool and execution characteristics are not established.",
+      summary: "The agent's required execution mode is not established.",
       paths: executionPaths,
-      why: "Tool use and execution duration materially affect runtime capabilities, isolation requirements, cloud cost, and deployability.",
+      why: "Advisory-only behavior, ordinary tool use, and sandboxed code execution require materially different runtime, isolation, and deployment capabilities.",
       affects: ["architecture", "economics", "deployment"],
       acquisition: {
         status: "unresolved",

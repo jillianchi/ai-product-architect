@@ -288,3 +288,18 @@ does not create an "approved opportunity" prerequisite.
 
 **Reason:** Early opportunity analysis is useful even when deployment is not
 requested or the current user cannot authorize it.
+
+------------------------------------------------------------------------
+
+## DEC-024 --- Be evidence-led, not ideation-led
+
+**Decision:** Evaluate explicit capability proposals or synthesize opportunity
+hypotheses only when sufficient relevant signals or evidence exist. Generic
+account or company context alone must not produce speculative AI capabilities.
+
+**Reason:** Opportunity hypotheses should follow customer signals and evidence,
+not partner-driven brainstorming with post-hoc justification.
+
+**Does not mean:** every outcome claim is established. Retention, revenue,
+growth, cost, and experience effects remain explicit hypotheses until supported
+or validated.
