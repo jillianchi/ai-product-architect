@@ -40,7 +40,13 @@
     ]
   },
   "workload": {
-    "pattern": "AGENT_SAAS"
+    "pattern": "AGENT_SAAS",
+    "requiredContextSources": [
+      {
+        "value": "source_code_repository",
+        "provenance": "user"
+      }
+    ]
   },
   "constraints": {},
   "architecture": {},

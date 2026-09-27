@@ -250,6 +250,7 @@
         "agent_runtime",
         "model_inference",
         "model_routing",
+        "repository_context_access",
         "tool_execution",
         "sandbox_compute",
         "retrieval",
@@ -327,6 +328,11 @@
         "billableUsers": { "$ref": "#/$defs/integerFact" },
         "agentTasksPerUserMonth": { "$ref": "#/$defs/numberFact" },
         "executionMode": { "$ref": "#/$defs/executionModeFact" },
+        "requiredContextSources": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/stringFact" }
+        },
         "inputTokensPerTask": { "$ref": "#/$defs/integerFact" },
         "outputTokensPerTask": { "$ref": "#/$defs/integerFact" },
         "toolCallsPerTask": { "$ref": "#/$defs/numberFact" },

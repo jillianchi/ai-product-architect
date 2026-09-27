@@ -101,6 +101,13 @@ normalized capabilities, selected patterns, implementations, model strategy,
 decisions, assumptions, and validation tasks. It is not an arbitrary analysis
 of all existing infrastructure.
 
+The deterministic AGENT_SAAS composer derives provider-neutral capability
+requirements from structured `ProductDesign` facts. Required context sources
+are represented generically; the DevFlow fixture identifies a source-code
+repository as one such source. Retrieval, tool-based access, and other context
+mechanisms remain alternative implementation decisions until requirements
+justify one. Composition does not approve an `ArchitectureSpec`.
+
 ### Economics
 
 Captures explicitly incremental revenue, COGS, contribution, margin, and

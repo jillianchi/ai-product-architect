@@ -21,6 +21,7 @@ describe("DevFlow information planning", () => {
       "value-hypothesis-evidence",
       "incremental-demand-scenarios",
       "agent-execution-characteristics",
+      "repository-context-realization",
       "current-commercial-context",
     ]);
   });
@@ -133,6 +134,7 @@ describe("DevFlow information planning", () => {
 
     expect(richNeeds.map(({ id }) => id)).toEqual([
       "value-hypothesis-evidence",
+      "repository-context-realization",
     ]);
     expect(richNeeds.length).toBeLessThan(sparseNeeds.length);
   });

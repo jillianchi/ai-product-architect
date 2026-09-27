@@ -42,6 +42,19 @@ function object(value: unknown): JsonObject {
   return value as JsonObject;
 }
 
+function factValue(container: JsonObject, key: string): unknown {
+  const fact = container[key];
+  return fact && typeof fact === "object" ? object(fact).value : undefined;
+}
+
+function contextSourcePath(workload: JsonObject, source: string): string | undefined {
+  if (!Array.isArray(workload.requiredContextSources)) return undefined;
+  const index = workload.requiredContextSources.findIndex(
+    (entry) => object(entry).value === source,
+  );
+  return index >= 0 ? `/workload/requiredContextSources/${index}` : undefined;
+}
+
 function assertValidProductDesign(productDesign: unknown): asserts productDesign is JsonObject {
   const result = validateProductDesign(productDesign);
   if (!result.valid) {
@@ -144,6 +157,29 @@ export function analyzeInformationNeeds(productDesign: unknown): InformationNeed
       },
       blockingDecisionAreas: ["architecture", "deployment"],
       materiality: "high",
+    });
+  }
+
+  const workload = object(productDesign.workload);
+  const repositorySourcePath = contextSourcePath(
+    workload,
+    "source_code_repository",
+  );
+  if (repositorySourcePath) {
+    needs.push({
+      id: "repository-context-realization",
+      summary: "The mechanism for supplying repository context is unresolved.",
+      paths: [repositorySourcePath],
+      why: "Repository context is required, but tool-based access, retrieval/indexing, and request-time context construction have different security, freshness, latency, and cost implications.",
+      affects: ["architecture", "economics", "deployment"],
+      acquisition: {
+        status: "unresolved",
+        candidates: ["ask_user", "customer_discovery"],
+        reason:
+          "Choosing a context mechanism requires repository scale, freshness, permission, and interaction requirements that ProductDesign does not yet contain.",
+      },
+      blockingDecisionAreas: ["deployment"],
+      materiality: "medium",
     });
   }
 

@@ -7,6 +7,10 @@ import {
   type DecisionArea,
   type InformationNeed,
 } from "./information-needs.js";
+import {
+  composeAgentSaasArchitecture,
+  type ArchitectureComposition,
+} from "./architecture-composer.js";
 
 type JsonObject = Record<string, any>;
 
@@ -186,6 +190,32 @@ function printKnown(design: JsonObject): void {
   line("Deployment status", String(deployment.status));
 }
 
+function printArchitecture(composition: ArchitectureComposition): void {
+  console.log("\nARCHITECTURE");
+  console.log(`- Pattern: ${composition.pattern}`);
+  console.log(`- Scope: ${composition.scope}`);
+
+  for (const conclusion of composition.conclusions) {
+    if (conclusion.kind === "capability") {
+      console.log(`- ${conclusion.status.toUpperCase()} · ${conclusion.capability}`);
+      console.log(`  Why: ${conclusion.reason}`);
+      console.log(`  Derived from: ${conclusion.derivedFrom.join(", ")}`);
+      continue;
+    }
+
+    console.log(`- ${conclusion.status.toUpperCase()} · ${conclusion.id}`);
+    console.log(`  Requirement: ${conclusion.requirement}`);
+    console.log(`  Why: ${conclusion.reason}`);
+    console.log(`  Derived from: ${conclusion.derivedFrom.join(", ")}`);
+    if (conclusion.alternatives) {
+      console.log(`  Alternatives: ${conclusion.alternatives.join(", ")}`);
+    }
+    if (conclusion.informationNeedId) {
+      console.log(`  Information need: ${conclusion.informationNeedId}`);
+    }
+  }
+}
+
 function acquisitionLabel(need: InformationNeed): string {
   if (need.acquisition.status === "recommended") {
     return methodLabels[need.acquisition.method];
@@ -234,12 +264,14 @@ function printProgress(needs: InformationNeed[]): void {
 
 function printCase(title: string, design: JsonObject): InformationNeed[] {
   const needs = analyzeInformationNeeds(design);
+  const architecture = composeAgentSaasArchitecture(design);
   console.log("=".repeat(80));
   console.log(title);
   console.log("=".repeat(80));
   printOpportunity(design);
   printHypotheses(design);
   printKnown(design);
+  printArchitecture(architecture);
   printNeeds(needs);
   printProgress(needs);
   console.log();

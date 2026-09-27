@@ -12,12 +12,46 @@ function fixture(name: string): Record<string, any> {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
+function approvedFixture(): Record<string, any> {
+  const design = fixture("devflow-rich");
+  const capabilities = ["agent_runtime", "usage_tracking"];
+  const implementationSelections = [
+    {
+      capability: "agent_runtime",
+      implementation: {
+        value: "fixture_agent_runtime_module",
+        provenance: "derived",
+      },
+    },
+  ];
+  design.architecture.requiredCapabilities = capabilities;
+  design.architecture.implementationSelections = implementationSelections;
+  design.deployment = {
+    status: "approved",
+    architectureSpec: {
+      pattern: "AGENT_SAAS",
+      capabilities: [...capabilities],
+      implementationSelections: structuredClone(implementationSelections),
+      targetCloud: "AWS",
+      regions: ["ap-southeast-1"],
+      moduleReferences: ["fixture://devflow/agent-saas/core"],
+    },
+  };
+  return design;
+}
+
 describe("ProductDesign validation", () => {
   it("accepts the sparse DevFlow opportunity without invented assumptions", () => {
     const sparse = fixture("devflow-sparse");
 
     expect(validateProductDesign(sparse)).toEqual({ valid: true, errors: [] });
-    expect(sparse.workload).toEqual({ pattern: "AGENT_SAAS" });
+    expect(sparse.workload.pattern).toBe("AGENT_SAAS");
+    expect(sparse.workload.requiredContextSources).toEqual([
+      {
+        value: "source_code_repository",
+        provenance: "user",
+      },
+    ]);
     expect(sparse.economics).toEqual({ scope: "incremental" });
   });
 
@@ -155,13 +189,13 @@ describe("ProductDesign validation", () => {
 
   it("requires an approved deployment to contain an ArchitectureSpec", () => {
     const complete = fixture("devflow-rich");
-    delete complete.deployment.architectureSpec;
+    complete.deployment.status = "approved";
 
     expect(validateProductDesign(complete).valid).toBe(false);
   });
 
   it("keeps ArchitectureSpec derived from selected architecture", () => {
-    const complete = fixture("devflow-rich");
+    const complete = approvedFixture();
     complete.deployment.architectureSpec.capabilities.pop();
 
     expect(validateProductDesign(complete).errors).toContain(
@@ -170,7 +204,7 @@ describe("ProductDesign validation", () => {
   });
 
   it("only selects implementations for required capabilities", () => {
-    const complete = fixture("devflow-rich");
+    const complete = approvedFixture();
     complete.architecture.implementationSelections[0].capability = "object_storage";
 
     expect(validateProductDesign(complete).errors).toContain(
@@ -179,14 +213,14 @@ describe("ProductDesign validation", () => {
   });
 
   it("rejects non-AWS deployment targets in V1", () => {
-    const complete = fixture("devflow-rich");
+    const complete = approvedFixture();
     complete.deployment.architectureSpec.targetCloud = "GCP";
 
     expect(validateProductDesign(complete).valid).toBe(false);
   });
 
   it("rejects provider services as capability identifiers", () => {
-    const complete = fixture("devflow-rich");
+    const complete = approvedFixture();
     complete.architecture.requiredCapabilities.push("AWS Lambda");
 
     expect(validateProductDesign(complete).valid).toBe(false);

@@ -303,3 +303,22 @@ not partner-driven brainstorming with post-hoc justification.
 **Does not mean:** every outcome claim is established. Retention, revenue,
 growth, cost, and experience effects remain explicit hypotheses until supported
 or validated.
+
+------------------------------------------------------------------------
+
+## DEC-025 --- Compose provider-neutral architecture from structured facts
+
+**Decision:** The first AGENT_SAAS composer deterministically derives
+provider-neutral required capabilities and unresolved decisions from traceable
+`ProductDesign` inputs. Composition is transient reasoning output and does not
+approve or mutate `ArchitectureSpec`.
+
+**Reason:** Architecture conclusions must be inspectable, evidence-led, and
+independent of provider service selection.
+
+**Does not mean:** the AGENT_SAAS pattern implies a complete static capability
+template. Context-source requirements are represented generically. Repository
+context access is distinct from choosing retrieval, tool-based access, or
+another realization. Economic model-distribution assumptions do not imply
+runtime model routing, and commercial usage pricing does not itself add usage
+billing to the technical architecture.

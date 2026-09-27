@@ -118,6 +118,12 @@
       "value": "sandboxed_code_execution",
       "provenance": "user"
     },
+    "requiredContextSources": [
+      {
+        "value": "source_code_repository",
+        "provenance": "user"
+      }
+    ],
     "inputTokensPerTask": {
       "value": 12000,
       "provenance": "assumption",
@@ -197,36 +203,6 @@
   },
   "architecture": {
     "pattern": "AGENT_SAAS",
-    "requiredCapabilities": [
-      "authentication",
-      "tenant_management",
-      "api",
-      "agent_runtime",
-      "model_inference",
-      "model_routing",
-      "tool_execution",
-      "sandbox_compute",
-      "usage_tracking",
-      "subscription_billing",
-      "usage_billing",
-      "entitlements"
-    ],
-    "implementationSelections": [
-      {
-        "capability": "agent_runtime",
-        "implementation": {
-          "value": "fixture_agent_runtime_module",
-          "provenance": "derived"
-        }
-      },
-      {
-        "capability": "usage_tracking",
-        "implementation": {
-          "value": "fixture_usage_tracking_module",
-          "provenance": "derived"
-        }
-      }
-    ],
     "modelStrategy": {
       "value": "Route routine and complex tasks separately",
       "provenance": "assumption",
@@ -333,42 +309,6 @@
     }
   },
   "deployment": {
-    "status": "approved",
-    "architectureSpec": {
-      "pattern": "AGENT_SAAS",
-      "capabilities": [
-        "authentication",
-        "tenant_management",
-        "api",
-        "agent_runtime",
-        "model_inference",
-        "model_routing",
-        "tool_execution",
-        "sandbox_compute",
-        "usage_tracking",
-        "subscription_billing",
-        "usage_billing",
-        "entitlements"
-      ],
-      "implementationSelections": [
-        {
-          "capability": "agent_runtime",
-          "implementation": {
-            "value": "fixture_agent_runtime_module",
-            "provenance": "derived"
-          }
-        },
-        {
-          "capability": "usage_tracking",
-          "implementation": {
-            "value": "fixture_usage_tracking_module",
-            "provenance": "derived"
-          }
-        }
-      ],
-      "targetCloud": "AWS",
-      "regions": ["ap-southeast-1"],
-      "moduleReferences": ["fixture://devflow/agent-saas/core"]
-    }
+    "status": "not_requested"
   }
 }
