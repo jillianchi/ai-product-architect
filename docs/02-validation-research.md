@@ -1,7 +1,7 @@
 # AI Product Architect --- Validation & Research
 
 **Status:** discovery evidence baseline\
-**Last updated:** 26 September 2026
+**Last updated:** 27 September 2026
 
 This document records the evidence that materially changed or supported
 the product thesis. It is intentionally not an exhaustive research
@@ -140,19 +140,20 @@ A benchmark can measure:
 **Validated insight:** identifying uncertainty and generating the right
 experiment belongs inside the architecture workflow.
 
-## 5. Canonical validation case B --- AI agent SaaS
+## 5. Canonical validation case B --- AI capability for an existing SaaS
 
 A coding-agent-style SaaS was selected because LLM inference is
 unquestionably central.
 
-### Simulated founder input
+### Simulated product-change input
 
-Build an AI coding agent for software teams and charge approximately
-\$20/user/month.
+DevFlow already operates a team developer platform. It is considering a
+repository-aware AI coding agent to improve retention and potentially support
+a premium offering.
 
 ### Illustrative workload assumptions
 
--   agent tasks are the usage concept;
+-   adopted users and agent tasks are incremental usage concepts;
 -   tasks have highly variable complexity;
 -   an illustrative task profile of 12,000 input tokens and 2,500 output
     tokens was used for sensitivity analysis;
@@ -163,7 +164,12 @@ private usage.
 
 ### Finding
 
-A flat subscription can create long-tail COGS exposure because one
+The opportunity cannot be evaluated from architecture alone. Retention,
+premium-revenue, and experience improvements begin as hypotheses that require
+evidence. Technical analysis then tests whether the incremental workload and
+cost structure support those hypotheses.
+
+A flat subscription can create long-tail incremental COGS exposure because one
 "agent task" can range from a trivial action to a long tool-using loop.
 
 This makes model strategy a business architecture decision:
@@ -185,8 +191,9 @@ describes movement toward included AI usage and metered overages as AI
 consumption creates variable costs. This should be re-verified from the
 current Stripe source before external publication.
 
-**Validated insight:** model architecture can materially affect unit
-economics, and unit economics can determine pricing/billing design.
+**Validated insight:** customer value must be considered before pricing, while
+model architecture can materially affect incremental unit economics and the
+viable commercial change.
 
 ## 6. Cross-case conclusion
 
@@ -200,8 +207,9 @@ and the appropriate included-usage/overage design.
 
 Both reduce to the same loop:
 
-Business model → requirements → architecture ↔ unit economics ↔
-commercial architecture → deploy.
+Current product context → proposed change and customer-value hypothesis →
+evidence → incremental architecture ↔ economics ↔ commercial architecture →
+validation → optional deployment.
 
 This is sufficient validation to stop adding more example businesses
 before implementation.

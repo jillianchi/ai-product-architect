@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "2.0.0",
+  "business": {
+    "organizationName": {
+      "value": "DevFlow",
+      "provenance": "user"
+    },
+    "productDescription": {
+      "value": "Team developer collaboration platform",
+      "provenance": "user"
+    },
+    "targetCustomer": {
+      "value": "Software teams",
+      "provenance": "user"
+    }
+  },
+  "opportunity": {
+    "proposedChange": {
+      "value": "Add a repository-aware AI coding agent",
+      "provenance": "user"
+    },
+    "whyChange": [
+      {
+        "statement": "An AI coding agent may improve customer retention",
+        "kind": "hypothesis",
+        "provenance": "user",
+        "confidence": "low"
+      }
+    ],
+    "valueHypotheses": [
+      {
+        "category": "revenue",
+        "hypothesis": {
+          "statement": "The capability may support a premium offering",
+          "kind": "hypothesis",
+          "provenance": "user",
+          "confidence": "low"
+        }
+      }
+    ]
+  },
+  "workload": {
+    "pattern": "AGENT_SAAS"
+  },
+  "constraints": {},
+  "architecture": {},
+  "economics": {
+    "scope": "incremental"
+  },
+  "commercialModel": {},
+  "deployment": {
+    "status": "not_requested"
+  }
+}

@@ -1,0 +1,370 @@
+{
+  "schemaVersion": "2.0.0",
+  "business": {
+    "organizationName": {
+      "value": "DevFlow",
+      "provenance": "user"
+    },
+    "productDescription": {
+      "value": "Subscription developer collaboration platform for software teams",
+      "provenance": "user"
+    },
+    "targetCustomer": {
+      "value": "Software teams",
+      "provenance": "user"
+    },
+    "geography": {
+      "value": "APAC",
+      "provenance": "user"
+    },
+    "stage": {
+      "value": "Established product",
+      "provenance": "user"
+    },
+    "currentCommercialModel": {
+      "value": "Team subscription at USD 20 per user per month",
+      "provenance": "user"
+    },
+    "priorities": [
+      {
+        "value": "Improve retention without creating unsustainable AI cost exposure",
+        "provenance": "user"
+      }
+    ]
+  },
+  "opportunity": {
+    "proposedChange": {
+      "value": "Add a repository-aware AI coding agent with sandboxed code execution",
+      "provenance": "user"
+    },
+    "whyChange": [
+      {
+        "statement": "Customer interviews identify context switching during coding tasks as a recurring source of friction",
+        "kind": "evidence",
+        "provenance": "user",
+        "sourceReference": "fixture://devflow/customer-interviews"
+      },
+      {
+        "statement": "Reducing coding-workflow friction may improve retention",
+        "kind": "hypothesis",
+        "provenance": "derived",
+        "confidence": "medium"
+      }
+    ],
+    "whyNow": [
+      {
+        "statement": "DevFlow is evaluating capabilities for its next premium-product roadmap",
+        "kind": "statement",
+        "provenance": "user"
+      },
+      {
+        "statement": "Twelve of twenty interviewed customers asked for AI-assisted repository workflows",
+        "kind": "evidence",
+        "provenance": "user",
+        "sourceReference": "fixture://devflow/customer-interviews"
+      }
+    ],
+    "valueHypotheses": [
+      {
+        "category": "retention",
+        "hypothesis": {
+          "statement": "Repository-aware assistance may improve retention among active teams",
+          "kind": "hypothesis",
+          "provenance": "derived",
+          "confidence": "medium"
+        },
+        "evidence": [
+          {
+            "statement": "Customer interviews identify context switching during coding tasks as a recurring source of friction",
+            "kind": "evidence",
+            "provenance": "user",
+            "sourceReference": "fixture://devflow/customer-interviews"
+          }
+        ]
+      },
+      {
+        "category": "revenue",
+        "hypothesis": {
+          "statement": "A premium AI add-on may increase revenue per adopted user",
+          "kind": "hypothesis",
+          "provenance": "derived",
+          "confidence": "low"
+        }
+      },
+      {
+        "category": "experience",
+        "hypothesis": {
+          "statement": "Keeping coding tasks inside DevFlow may reduce workflow interruption",
+          "kind": "hypothesis",
+          "provenance": "derived",
+          "confidence": "medium"
+        }
+      }
+    ]
+  },
+  "workload": {
+    "pattern": "AGENT_SAAS",
+    "billableUsers": {
+      "value": 4000,
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "agentTasksPerUserMonth": {
+      "value": 50,
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "inputTokensPerTask": {
+      "value": 12000,
+      "provenance": "assumption",
+      "confidence": "low",
+      "sourceReference": "docs/02-validation-research.md#5-canonical-validation-case-b-ai-capability-for-an-existing-saas"
+    },
+    "outputTokensPerTask": {
+      "value": 2500,
+      "provenance": "assumption",
+      "confidence": "low",
+      "sourceReference": "docs/02-validation-research.md#5-canonical-validation-case-b-ai-capability-for-an-existing-saas"
+    },
+    "toolCallsPerTask": {
+      "value": 4,
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "computeSecondsPerTask": {
+      "value": 30,
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "storageGbMonth": {
+      "value": 100,
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "fallbackRatePercent": {
+      "value": 10,
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "modelRouting": [
+      {
+        "route": {
+          "value": "routine",
+          "provenance": "assumption",
+          "confidence": "low"
+        },
+        "sharePercent": {
+          "value": 80,
+          "provenance": "assumption",
+          "confidence": "low"
+        }
+      },
+      {
+        "route": {
+          "value": "complex",
+          "provenance": "assumption",
+          "confidence": "low"
+        },
+        "sharePercent": {
+          "value": 20,
+          "provenance": "assumption",
+          "confidence": "low"
+        }
+      }
+    ]
+  },
+  "constraints": {
+    "deploymentCloud": {
+      "value": "AWS",
+      "provenance": "user"
+    },
+    "deploymentRegions": [
+      {
+        "value": "ap-southeast-1",
+        "provenance": "user"
+      }
+    ],
+    "dataResidencyRequirements": [
+      {
+        "value": "Customer repository data must remain in the selected deployment region",
+        "provenance": "user"
+      }
+    ]
+  },
+  "architecture": {
+    "pattern": "AGENT_SAAS",
+    "requiredCapabilities": [
+      "authentication",
+      "tenant_management",
+      "api",
+      "agent_runtime",
+      "model_inference",
+      "model_routing",
+      "tool_execution",
+      "sandbox_compute",
+      "usage_tracking",
+      "subscription_billing",
+      "usage_billing",
+      "entitlements"
+    ],
+    "implementationSelections": [
+      {
+        "capability": "agent_runtime",
+        "implementation": {
+          "value": "fixture_agent_runtime_module",
+          "provenance": "derived"
+        }
+      },
+      {
+        "capability": "usage_tracking",
+        "implementation": {
+          "value": "fixture_usage_tracking_module",
+          "provenance": "derived"
+        }
+      }
+    ],
+    "modelStrategy": {
+      "value": "Route routine and complex tasks separately",
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "decisions": [
+      {
+        "decision": "Initial commercial change",
+        "selectedAlternative": "subscription plus usage",
+        "alternativesConsidered": ["subscription add-on", "usage", "credits"],
+        "reasoning": "Variable agent consumption creates incremental margin exposure under an uncapped add-on.",
+        "affectedMetrics": ["incremental unit cost", "incremental contribution margin"],
+        "confidence": "low",
+        "validationRequired": true
+      }
+    ],
+    "assumptions": [
+      {
+        "name": "adopted AI users",
+        "value": 4000,
+        "provenance": "assumption",
+        "confidence": "low",
+        "rationale": "Illustrative adoption for exercising the incremental contract."
+      }
+    ],
+    "validationTasks": [
+      {
+        "uncertainty": "Agent task consumption distribution",
+        "materialImpact": "Determines incremental model COGS and add-on margin exposure.",
+        "proposedValidation": "Benchmark representative routine and complex repository tasks."
+      },
+      {
+        "uncertainty": "Retention effect",
+        "materialImpact": "Determines whether the opportunity creates the hypothesized customer value.",
+        "proposedValidation": "Run a controlled pilot and compare activation, engagement, and retention signals."
+      }
+    ]
+  },
+  "economics": {
+    "scope": "incremental",
+    "scenarios": {
+      "low": {
+        "monthlyRevenue": { "value": { "minorUnits": 4000000, "currency": "USD" }, "provenance": "derived" },
+        "modelCogs": { "value": { "minorUnits": 800000, "currency": "USD" }, "provenance": "derived" },
+        "cloudCogs": { "value": { "minorUnits": 200000, "currency": "USD" }, "provenance": "derived" },
+        "toolCogs": { "value": { "minorUnits": 100000, "currency": "USD" }, "provenance": "derived" },
+        "paymentCosts": { "value": { "minorUnits": 140000, "currency": "USD" }, "provenance": "derived" },
+        "totalCostToServe": { "value": { "minorUnits": 1240000, "currency": "USD" }, "provenance": "derived" },
+        "contribution": { "value": { "minorUnits": 2760000, "currency": "USD" }, "provenance": "derived" },
+        "contributionMarginPercent": { "value": 69, "provenance": "derived" },
+        "unitRevenue": { "value": { "minorUnits": 1000, "currency": "USD" }, "provenance": "derived" },
+        "unitCost": { "value": { "minorUnits": 310, "currency": "USD" }, "provenance": "derived" }
+      },
+      "expected": {
+        "monthlyRevenue": { "value": { "minorUnits": 4000000, "currency": "USD" }, "provenance": "derived" },
+        "modelCogs": { "value": { "minorUnits": 1600000, "currency": "USD" }, "provenance": "derived" },
+        "cloudCogs": { "value": { "minorUnits": 300000, "currency": "USD" }, "provenance": "derived" },
+        "toolCogs": { "value": { "minorUnits": 200000, "currency": "USD" }, "provenance": "derived" },
+        "paymentCosts": { "value": { "minorUnits": 140000, "currency": "USD" }, "provenance": "derived" },
+        "totalCostToServe": { "value": { "minorUnits": 2240000, "currency": "USD" }, "provenance": "derived" },
+        "contribution": { "value": { "minorUnits": 1760000, "currency": "USD" }, "provenance": "derived" },
+        "contributionMarginPercent": { "value": 44, "provenance": "derived" },
+        "unitRevenue": { "value": { "minorUnits": 1000, "currency": "USD" }, "provenance": "derived" },
+        "unitCost": { "value": { "minorUnits": 560, "currency": "USD" }, "provenance": "derived" }
+      },
+      "high": {
+        "monthlyRevenue": { "value": { "minorUnits": 4000000, "currency": "USD" }, "provenance": "derived" },
+        "modelCogs": { "value": { "minorUnits": 3000000, "currency": "USD" }, "provenance": "derived" },
+        "cloudCogs": { "value": { "minorUnits": 500000, "currency": "USD" }, "provenance": "derived" },
+        "toolCogs": { "value": { "minorUnits": 400000, "currency": "USD" }, "provenance": "derived" },
+        "paymentCosts": { "value": { "minorUnits": 140000, "currency": "USD" }, "provenance": "derived" },
+        "totalCostToServe": { "value": { "minorUnits": 4040000, "currency": "USD" }, "provenance": "derived" },
+        "contribution": { "value": { "minorUnits": -40000, "currency": "USD" }, "provenance": "derived" },
+        "contributionMarginPercent": { "value": -1, "provenance": "derived" },
+        "unitRevenue": { "value": { "minorUnits": 1000, "currency": "USD" }, "provenance": "derived" },
+        "unitCost": { "value": { "minorUnits": 1010, "currency": "USD" }, "provenance": "derived" }
+      }
+    }
+  },
+  "commercialModel": {
+    "structure": {
+      "value": "subscription_usage",
+      "provenance": "derived"
+    },
+    "billableUnit": {
+      "value": "agent task credit",
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "price": {
+      "value": { "minorUnits": 1000, "currency": "USD" },
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "includedAllowance": {
+      "value": 50,
+      "provenance": "assumption",
+      "confidence": "low"
+    },
+    "overagePrice": {
+      "value": { "minorUnits": 50, "currency": "USD" },
+      "provenance": "assumption",
+      "confidence": "low"
+    }
+  },
+  "deployment": {
+    "status": "approved",
+    "architectureSpec": {
+      "pattern": "AGENT_SAAS",
+      "capabilities": [
+        "authentication",
+        "tenant_management",
+        "api",
+        "agent_runtime",
+        "model_inference",
+        "model_routing",
+        "tool_execution",
+        "sandbox_compute",
+        "usage_tracking",
+        "subscription_billing",
+        "usage_billing",
+        "entitlements"
+      ],
+      "implementationSelections": [
+        {
+          "capability": "agent_runtime",
+          "implementation": {
+            "value": "fixture_agent_runtime_module",
+            "provenance": "derived"
+          }
+        },
+        {
+          "capability": "usage_tracking",
+          "implementation": {
+            "value": "fixture_usage_tracking_module",
+            "provenance": "derived"
+          }
+        }
+      ],
+      "targetCloud": "AWS",
+      "regions": ["ap-southeast-1"],
+      "moduleReferences": ["fixture://devflow/agent-saas/core"]
+    }
+  }
+}

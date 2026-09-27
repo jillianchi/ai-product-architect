@@ -1,22 +1,22 @@
 # AI Product Architect
 
-**Design, validate, price, and deploy AI products by connecting technical architecture with unit economics and commercial models.**
+**Evaluate and design material AI product changes by connecting customer value, evidence, technical architecture, incremental economics, and commercial models.**
 
 AI Product Architect explores a closed-loop approach to building AI products:
 
 ```text
-business idea
+current product and business context
     ↓
-requirements
+proposed capability → why change / why now / customer value
     ↓
-technical architecture ↔ unit economics ↔ commercial architecture
+evidence and information needs
     ↓
-validation
+incremental technical architecture ↔ economics ↔ commercial architecture
     ↓
-deployment
+partner relevance → validation → optional deployment
 ```
 
-The project deliberately goes beyond generic architecture or IaC generation. Its thesis is that model, cloud, workload, and operational choices materially affect cost to serve — and therefore should influence pricing, billing, and monetization design.
+The project deliberately goes beyond generic architecture or IaC generation. Its thesis is that a proposed AI capability should be evaluated as a product opportunity: customer value and evidence come first, while model, cloud, workload, and operational choices validate the opportunity through incremental cost and commercial consequences.
 
 ## V1
 
@@ -29,9 +29,9 @@ V1 focuses on an `AGENT_SAAS` vertical slice:
 - commercial-model reasoning and Stripe mapping;
 - validated deployment patterns rather than arbitrary generated infrastructure.
 
-The canonical acceptance scenario is:
+The canonical acceptance scenario is an existing digital product considering a material AI capability:
 
-> “I want to build an AI coding agent for teams and charge $20/month.”
+> “DevFlow operates a team developer platform and is considering adding a repository-aware AI coding agent to improve retention and support a premium offering.”
 
 ## Documentation
 
@@ -45,4 +45,6 @@ For coding agents, start with [AGENTS.md](AGENTS.md).
 
 ## Status
 
-Discovery baseline complete. Implementation has not yet begun.
+Milestone 1 established the canonical domain schema and validator. The domain
+is being reframed around the DevFlow existing-product opportunity before new
+reasoning behavior is implemented.

@@ -1,7 +1,7 @@
 # AI Product Architect --- Decision Log
 
 **Status:** living document\
-**Last updated:** 26 September 2026
+**Last updated:** 27 September 2026
 
 ## DEC-001 --- Build solution IP, not new platform/protocol IP
 
@@ -107,10 +107,12 @@ economics/architecture loop is validated.
 
 ## DEC-009 --- AGENT_SAAS is the first end-to-end pattern
 
-**Decision:** Implement AGENT_SAAS first.
+**Decision:** Implement AGENT_SAAS first as a material capability added to an
+existing digital product.
 
-**Reason:** LLM inference is unquestionably central, making it a strong
-test of the hyperscaler + LLM provider + Stripe thesis.
+**Reason:** LLM inference is unquestionably central, making it a strong test of
+the opportunity → architecture → incremental economics → commercial design
+loop and of honest partner relevance.
 
 **Revisit when:** the first implementation exposes a simpler/better
 canonical workload.
@@ -151,20 +153,22 @@ forcing product logic to mirror provider primitives.
 
 ## DEC-013 --- Deployment engine is intentionally non-reasoning
 
-**Decision:** Deployment consumes an approved `ArchitectureSpec` and
-maps it to validated implementation modules.
+**Decision:** Optional deployment consumes an approved `ArchitectureSpec` and
+maps it to validated implementation modules. Opportunity analysis does not
+create a separate deployment approval gate.
 
 **Reason:** Architecture intelligence belongs before deployment;
 deployment should be predictable and reviewable.
 
 ------------------------------------------------------------------------
 
-## DEC-014 --- Stop expanding discovery cases before implementation
+## DEC-014 --- Use two canonical patterns rather than expanding discovery cases
 
-**Decision:** Do not add more canonical business examples now.
+**Decision:** Replace the greenfield coding-agent example with the DevFlow
+existing-product AGENT_SAAS scenario; do not add more canonical examples now.
 
-**Reason:** Invoice processing and agent SaaS already demonstrate the
-shared architecture/economics/commercial loop. Additional examples risk
+**Reason:** DevFlow and invoice processing are sufficient to test the revised
+opportunity/architecture/economics/commercial loop. Additional examples risk
 becoming research without reducing implementation uncertainty.
 
 **Revisit when:** AGENT_SAAS and ASYNC_AI produce incompatible
@@ -198,3 +202,89 @@ are required, or the application framework has been selected.
 
 **Revisit when:** implementation beyond the domain boundary demonstrates a
 material requirement that this stack cannot meet.
+
+------------------------------------------------------------------------
+
+## DEC-017 --- Evaluate a change to an existing product
+
+**Decision:** The primary V1 unit of analysis is a material AI capability or
+change being considered for an existing digital product/business.
+
+**Reason:** The intended workflow is opportunity evaluation for real customer
+contexts, not assuming that every user is founding a greenfield business.
+
+**Does not mean:** complete current-architecture discovery is required.
+
+------------------------------------------------------------------------
+
+## DEC-018 --- Embed Opportunity in ProductDesign
+
+**Decision:** `ProductDesign` remains the sole V1 root aggregate. It embeds an
+`Opportunity` section; Opportunity has no separate root or lifecycle.
+
+**Reason:** Opportunity reasoning and solution design need a clear conceptual
+boundary without creating duplicate facts, synchronization, or a conversion
+workflow.
+
+**Revisit when:** portfolio ownership, independent lifecycle, or CRM
+integration creates a demonstrated need for a separate aggregate.
+
+------------------------------------------------------------------------
+
+## DEC-019 --- Use one progressive flow with variable information completeness
+
+**Decision:** Do not create seller and customer product modes. The same
+`ProductDesign` becomes more precise as information is supplied with explicit
+provenance and epistemic status.
+
+**Reason:** Seller, customer, and other users can each have partial knowledge;
+role alone does not justify separate product behavior.
+
+------------------------------------------------------------------------
+
+## DEC-020 --- Model the proposed change incrementally
+
+**Decision:** Workload, architecture, economics, and commercial design are
+scoped to the incremental effect of the proposed change. Economics carries an
+explicit `incremental` scope.
+
+**Reason:** Whole-product revenue and cost can hide whether the proposed
+capability itself is viable or creates an incremental partner workload.
+
+**Does not mean:** shared costs, cannibalization, or baseline effects are
+ignored; they must be explicit inputs or assumptions when material.
+
+------------------------------------------------------------------------
+
+## DEC-021 --- Derive partner relevance and allow no fit
+
+**Decision:** Partner relevance follows customer value, architecture,
+economics, and commercial design. It may be strong, conditional, weak, or
+absent. Do not add partner assessments to `ProductDesign` until the behavior is
+implemented and validated.
+
+**Reason:** The system must not manufacture partner fit because a participating
+partner wants the opportunity.
+
+------------------------------------------------------------------------
+
+## DEC-022 --- Treat information acquisition as routing, not a questionnaire
+
+**Decision:** A material unknown may eventually be routed to authoritative
+research, explicit hypothesis, scenario modelling, the current user, future
+customer discovery, or deferral. `InformationNeed` is transient output, not a
+second persistent requirements model.
+
+**Reason:** Missing fields do not automatically imply user questions, and
+useful analysis must be possible before discovery is complete.
+
+------------------------------------------------------------------------
+
+## DEC-023 --- Keep deployment optional
+
+**Decision:** Deployment is an optional path and requires an approved
+`ArchitectureSpec`. Opportunity analysis informs the decision to proceed but
+does not create an "approved opportunity" prerequisite.
+
+**Reason:** Early opportunity analysis is useful even when deployment is not
+requested or the current user cannot authorize it.

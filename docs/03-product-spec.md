@@ -1,147 +1,179 @@
 # AI Product Architect --- V1 Product Specification
 
 **Status:** implementation baseline\
-**Last updated:** 26 September 2026
+**Last updated:** 27 September 2026
 
 ## 1. Product definition
 
-Describe the AI product you want to build; the system designs a viable
-technical and commercial architecture, models its unit economics, and
-produces a deployable implementation.
+AI Product Architect evaluates a material AI capability for an existing digital
+product. It connects current product context, why-change and why-now reasoning,
+customer-value hypotheses, and evidence to incremental technical architecture,
+economics, commercial design, honest partner relevance, validation, and
+optional deployment.
 
-## 2. V1 acceptance scenario
+## 2. Canonical V1 acceptance scenario
 
-Initial prompt:
+Sparse input:
 
-> "I want to build an AI coding agent for teams and charge \$20/month."
+> "DevFlow operates a team developer platform and is considering adding a
+> repository-aware AI coding agent to improve retention and support a premium
+> offering."
 
-The prototype should produce:
+The same scenario gains precision as workload, customer, commercial,
+technical, and source-backed information is added. It does not split into
+seller and customer modes.
 
-structured requirements → adaptive questions → normalized capabilities →
-architecture alternatives → deterministic economics → commercial design
-→ Stripe implementation mapping → AWS deployment specification.
+The prototype should eventually produce:
+
+current context → opportunity and evidence → information needs → normalized
+capabilities → incremental architecture alternatives → deterministic
+incremental economics → commercial change → partner relevance → validation →
+optional AWS deployment specification.
 
 ## 3. V1 user journey
 
-1.  User describes the business in natural language.
-2.  System extracts known requirements.
-3.  System asks only follow-up questions that materially affect
-    architecture or economics.
-4.  Unknown values may remain unknown; material unknowns can become
-    explicit assumptions.
-5.  System selects/composes validated architecture patterns.
-6.  Provider facts and pricing are retrieved from maintained/current
-    sources.
-7.  Economics engine evaluates expected and sensitivity scenarios.
-8.  Architecture/economics loop evaluates alternatives.
-9.  System proposes commercial structures and maps the chosen structure
-    to Stripe primitives.
-10. System exposes assumptions, trade-offs, and validation tasks.
-11. User can request a deployment specification.
-12. Deployment engine converts the approved architecture specification
-    into validated modules/configuration.
+1.  The user supplies partial structured or unstructured current-product and
+    proposed-change context.
+2.  The system records what is known with provenance and leaves absent values
+    unknown.
+3.  The system forms explicit why-change, why-now, and customer-value
+    hypotheses without presenting unsupported hypotheses as facts.
+4.  The system identifies evidence and material information needs.
+5.  Each information need may eventually be routed to authoritative research,
+    explicit hypothesis, scenario modelling, the current user, future customer
+    discovery, or deferral.
+6.  The system selects or composes validated capability patterns for the
+    proposed change without requiring a complete current architecture.
+7.  Provider facts and pricing come from maintained/current sources.
+8.  Deterministic economics evaluates the incremental low, expected, and high
+    scenarios for the proposed change.
+9.  Architecture, economics, and opportunity reasoning challenge one another.
+10. The system proposes commercial changes and maps a selected change to
+    Stripe capabilities only when relevant.
+11. The system derives partner relevance from customer need and may conclude
+    that a partner opportunity is weak or absent.
+12. If deployment is requested, an approved `ArchitectureSpec` is mapped to
+    validated modules through an explicit plan/review/apply flow.
 
-## 4. Primary domain objects
+## 4. Canonical aggregate and domain concepts
+
+`ProductDesign` is the sole V1 root aggregate and structured state. Opportunity
+is embedded within it; there is no separate Opportunity lifecycle.
 
 ### Business
 
-Captures what is being sold, target customer, geography, stage, proposed
-pricing, and priorities.
+Captures the existing organization, product, target customer, geography,
+stage, current commercial context, and priorities.
+
+### Opportunity
+
+Captures the proposed change, why-change and why-now statements/evidence/
+hypotheses, and customer-value hypotheses.
+
+Opportunity entries must distinguish:
+
+-   a user-provided statement;
+-   source-backed evidence;
+-   an analytical hypothesis;
+-   a modelling assumption.
+
+Evidence requires a source reference. Hypotheses require confidence. These
+epistemic states do not assert that a customer statement is independently
+verified.
 
 ### Workload
 
-Captures the activity that drives technical consumption: users,
-requests/tasks, tokens, documents/pages, tool calls, storage, latency,
-and other workload-specific dimensions.
+Captures incremental activity created by the proposed change: users,
+requests/tasks, tokens, tool calls, compute, storage, routing, and other
+pattern-specific cost drivers.
 
 ### Constraints
 
-Captures cloud preference/requirement, region and residency
-requirements, provider exclusions, availability expectations, compliance
-constraints, and budget.
+Captures constraints applicable to the change: cloud requirement, deployment
+region, data residency, provider exclusions, availability, compliance, and
+budget. A complete current-estate inventory is not required.
 
 ### Architecture
 
-Captures normalized capabilities, selected patterns, provider
-implementations, model strategy, decisions, assumptions, and validation
-tasks.
+Captures the incremental target architecture for the proposed change:
+normalized capabilities, selected patterns, implementations, model strategy,
+decisions, assumptions, and validation tasks. It is not an arbitrary analysis
+of all existing infrastructure.
 
 ### Economics
 
-Captures revenue, COGS categories, unit economics, contribution, and
-sensitivity scenarios.
+Captures explicitly incremental revenue, COGS, contribution, margin, and
+sensitivity scenarios for the proposed change. Shared-cost allocation,
+cannibalization, and baseline comparisons remain explicit inputs or
+assumptions; they must not be silently inferred.
 
 ### CommercialModel
 
-Captures subscription, usage, credits, hybrid pricing, included
-allowances, overage, and the billable unit.
+Captures the proposed commercial change: subscription, usage, credits, hybrid
+pricing, included allowances, overage, and billable unit. Stripe is an
+implementation of the selected model, not the model itself.
 
 ### Deployment
 
-Captures the approved architecture specification and provider-specific
-deployment configuration.
+Captures an optional approved `ArchitectureSpec` and provider-specific
+deployment configuration. Opportunity analysis informs whether work should
+proceed but is not a separate deployment approval gate.
 
-## 5. Provenance
+### Partner relevance
 
-Material values must carry provenance.
+Partner relevance is an intended derived output based on the opportunity,
+architecture, economics, and commercial design. It may be strong,
+conditional, weak, or absent. It is deliberately not part of the V1 schema
+until partner-relevance behavior is implemented and validated.
 
-Example:
+### InformationNeed
 
-``` json
-{
-  "value": 80,
-  "source": "user"
-}
-```
+An `InformationNeed` is intended to be transient reasoning output rather than a
+second persistent requirements model. It should eventually capture:
 
-or:
+-   what is unknown or insufficiently supported;
+-   why it matters;
+-   affected decisions;
+-   recommended acquisition method;
+-   whether it blocks meaningful progress.
 
-``` json
-{
-  "value": 12000,
-  "source": "assumption",
-  "confidence": "low"
-}
-```
+No `InformationNeed` engine is part of the current domain-contract milestone.
 
-Supported sources should include at least:
+## 5. Provenance and epistemic status
 
--   user;
--   assumption;
--   benchmark;
--   provider_source;
--   derived.
+Material facts retain provenance:
+
+-   `user`;
+-   `assumption`;
+-   `benchmark`;
+-   `provider_source`;
+-   `derived`.
+
+`user` means supplied by the current user. It does not claim that the current
+user originated or independently verified the information. A customer may be
+the current user, so V1 does not add `customer_source`.
+
+V1 also does not add `public_source` until a concrete fixture or behavior needs
+it. Source-backed opportunity evidence supplied by the user uses `user`
+provenance plus a required `sourceReference` and an explicit `evidence`
+epistemic kind.
+
+Absence means genuinely unknown. An assumption must contain an explicit value
+with `assumption` provenance. Hypotheses and statements are not silently
+converted into evidence.
 
 ## 6. Provider-neutral capability model
 
-Initial capability vocabulary should cover:
-
--   web frontend;
--   authentication;
--   tenant management;
--   API;
--   agent runtime;
--   model inference;
--   model routing;
--   tool execution;
--   sandbox compute;
--   retrieval;
--   database;
--   object storage;
--   queue/orchestration;
--   secrets;
--   observability;
--   usage tracking;
--   subscription billing;
--   usage billing;
--   entitlements.
+The initial capability vocabulary continues to cover web frontend,
+authentication, tenant management, API, agent runtime, inference, routing,
+tool execution, sandbox compute, retrieval, database, storage, orchestration,
+secrets, observability, usage tracking, billing, and entitlements.
 
 Provider service names must not be used as the ontology.
 
 ## 7. Architecture patterns
 
-The schema should support five patterns even though only one is
-implemented end-to-end initially:
+The schema continues to recognize:
 
 1.  `AI_API`
 2.  `AI_SAAS`
@@ -149,175 +181,80 @@ implemented end-to-end initially:
 4.  `ASYNC_AI`
 5.  `RAG_SAAS`
 
-Patterns should compose through a base pattern plus capability modules
-rather than becoming five isolated codebases.
+`AGENT_SAAS` is implemented first as an incremental capability added to
+DevFlow. `ASYNC_AI` remains the second validation pattern. Patterns compose
+through a base pattern and capability modules rather than isolated codebases.
 
-### First implemented pattern
+## 8. Provider knowledge
 
-`AGENT_SAAS`
+Provider pricing, capabilities, regions, limits, compatibility, and similar
+facts must come from authoritative maintained/current sources and retain their
+source and verification date. LLM memory is not authoritative provider data.
 
-### Second validation pattern
+## 9. Incremental economics
 
-`ASYNC_AI`
+Economics calculations are deterministic code. Potential incremental inputs
+include adopted users, task volume, tokens, routing, compute, storage,
+bandwidth, tools, fallback, human review, payment volume, incremental revenue,
+and explicitly allocated shared costs.
 
-## 8. Provider knowledge layer
+Outputs include incremental monthly revenue, model COGS, cloud COGS, tool
+COGS, payment costs, total cost to serve, contribution, contribution margin,
+unit revenue, and unit cost.
 
-Each implementation entry should be capable of representing:
+V1 produces low, expected, and high scenarios together. The scenario-input
+override and unit-denominator contracts remain unresolved and must be decided
+before implementing the economics engine.
 
--   provider;
--   service/product;
--   supported capabilities;
--   regions;
--   pricing dimension;
--   pricing source;
--   limits;
--   constraints;
--   compatibility;
--   source URL/reference;
--   last verified date.
+## 10. Commercial and partner reasoning
 
-LLM memory is not an authoritative provider-data source.
+The commercial engine reasons from customer value and incremental cost
+structure toward a commercial unit and pricing change. Initial supported
+structures remain subscription, usage, subscription plus usage, and credits.
 
-## 9. Economics engine
+Partner relevance follows this reasoning. Existing use of AWS, Stripe, or a
+model provider does not by itself prove an incremental opportunity. The
+analysis must be able to conclude that no relevant partner change exists.
 
-Economics calculations are deterministic code.
-
-Potential inputs include:
-
--   users;
--   requests/tasks;
--   input/output tokens;
--   model routing distribution;
--   compute duration;
--   storage;
--   bandwidth;
--   tool calls;
--   documents/pages;
--   fallback rate;
--   human-review rate/cost;
--   payment volume.
-
-Outputs include:
-
--   monthly revenue;
--   model COGS;
--   cloud COGS;
--   tool COGS;
--   payment costs;
--   total cost to serve;
--   contribution;
--   contribution margin;
--   unit revenue;
--   unit cost.
-
-V1 automatically produces three scenarios:
-
--   low;
--   expected;
--   high.
-
-## 10. Architecture/economics reasoning
-
-The reasoning layer may:
-
--   propose alternatives;
--   identify cost drivers;
--   identify margin exposure;
--   propose model routing;
--   propose different provider implementations;
--   identify assumptions that dominate the result;
--   require validation where evidence is insufficient.
-
-It must not fabricate benchmark quality or provider facts.
-
-A decision object should include:
-
--   decision;
--   selected alternative;
--   alternatives considered;
--   reasoning;
--   affected metrics;
--   confidence;
--   whether validation is required.
-
-## 11. Commercial engine
-
-The commercial engine reasons from technical cost structure toward a
-commercial unit and pricing structure.
-
-Initial supported structures:
-
--   subscription;
--   usage;
--   subscription + usage;
--   credits.
-
-Then map the selected structure to existing Stripe capabilities.
-
-Stripe is an implementation of the commercial architecture, not the
-commercial architecture itself.
-
-## 12. V1 deployment boundary
+## 11. Deployment boundary
 
 ### Supported
 
--   AWS deployment only;
+-   optional AWS deployment only;
 -   provider-neutral schema;
--   Stripe commercial implementation;
--   OpenAI, Anthropic, and/or supported Bedrock model paths as
-    validated;
+-   Stripe implementation when commercially relevant;
+-   validated model paths;
 -   validated infrastructure/application modules;
 -   explicit plan/review/apply flow;
--   short-lived/scoped AWS access rather than raw long-lived
-    credentials.
+-   short-lived/scoped AWS access.
 
-### Not supported in V1
+### Not supported
 
--   Azure deployment;
--   GCP deployment;
--   brownfield migration;
--   arbitrary existing-infrastructure analysis;
+-   Azure or GCP deployment;
+-   complete brownfield-estate analysis or migration;
 -   arbitrary generated Terraform;
 -   Kubernetes optimization;
 -   complex enterprise networking;
--   automatic compliance certification/design;
+-   automatic compliance certification;
 -   continuous production optimization;
 -   automatic production model switching;
--   every AI workload;
--   every pricing structure;
--   every model benchmark;
--   a claim that generated systems are universally "production-ready."
+-   universal production-readiness claims;
+-   CRM integration, lead scoring, or sales handoff;
+-   live web research or an LLM integration in the domain reframing;
+-   separate seller and customer product modes.
 
-## 13. Deployment contract
+## 12. V1 success criteria
 
-The reasoning system outputs an `ArchitectureSpec`.
+V1 succeeds if:
 
-The deployment engine should not perform open-ended architecture
-reasoning. It maps the approved specification to validated modules,
-configuration, Terraform/provider-native deployment, plan, approval,
-apply, and health check.
-
-## 14. Initial working application
-
-The AGENT_SAAS reference deployment should ultimately demonstrate:
-
-user signup → subscription/entitlement → AI agent use → model/tool
-consumption → usage measurement → Stripe billing/allowance behavior.
-
-## 15. V1 success criteria
-
-V1 is successful if:
-
--   a sparse founder prompt can be converted into a useful structured
-    workload;
--   adaptive questions materially improve the recommendation;
--   assumptions are visible and traceable;
--   architecture alternatives have explainable economic consequences;
--   the commercial model follows from the cost structure;
--   a real reference application can be deployed into a
-    customer-controlled AWS account;
--   the output is more actionable than a generic LLM architecture
-    answer.
-
-V1 should be reconsidered if these benefits cannot be demonstrated
-without excessive manual curation.
+-   sparse DevFlow context produces useful opportunity analysis without
+    fabricated precision;
+-   richer information increases precision in the same `ProductDesign`;
+-   evidence, statements, hypotheses, and assumptions remain distinct;
+-   technical and economic analysis can challenge the value hypothesis;
+-   incremental architecture alternatives have explainable economic effects;
+-   commercial design follows customer value and cost structure;
+-   partner relevance is honest and may be absent;
+-   material information needs are routed appropriately;
+-   an approved `ArchitectureSpec` can optionally produce an AWS deployment
+    specification.

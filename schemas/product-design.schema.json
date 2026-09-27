@@ -7,6 +7,7 @@
   "required": [
     "schemaVersion",
     "business",
+    "opportunity",
     "workload",
     "constraints",
     "architecture",
@@ -15,8 +16,9 @@
     "deployment"
   ],
   "properties": {
-    "schemaVersion": { "const": "1.0.0" },
+    "schemaVersion": { "const": "2.0.0" },
     "business": { "$ref": "#/$defs/business" },
+    "opportunity": { "$ref": "#/$defs/opportunity" },
     "workload": { "$ref": "#/$defs/workload" },
     "constraints": { "$ref": "#/$defs/constraints" },
     "architecture": { "$ref": "#/$defs/architecture" },
@@ -130,6 +132,99 @@
         "proposedValidation": { "type": "string", "minLength": 1 }
       }
     },
+    "opportunityEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "kind", "provenance"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": ["statement", "evidence", "hypothesis", "assumption"]
+        },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceReference": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "statement" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": { "provenance": { "const": "user" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "evidence" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["sourceReference"],
+            "properties": {
+              "provenance": {
+                "enum": ["user", "benchmark", "provider_source"]
+              },
+              "sourceReference": true
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "hypothesis" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["confidence"],
+            "properties": {
+              "provenance": { "enum": ["user", "derived"] },
+              "confidence": true
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "assumption" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": { "provenance": { "const": "assumption" } }
+          }
+        }
+      ]
+    },
+    "valueHypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "hypothesis"],
+      "properties": {
+        "category": {
+          "enum": ["revenue", "cost", "growth", "retention", "experience", "other"]
+        },
+        "hypothesis": {
+          "allOf": [
+            { "$ref": "#/$defs/opportunityEntry" },
+            {
+              "type": "object",
+              "properties": { "kind": { "const": "hypothesis" } }
+            }
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/$defs/opportunityEntry" },
+              {
+                "type": "object",
+                "properties": { "kind": { "const": "evidence" } }
+              }
+            ]
+          }
+        }
+      }
+    },
     "pattern": {
       "enum": ["AI_API", "AI_SAAS", "AGENT_SAAS", "ASYNC_AI", "RAG_SAAS"]
     },
@@ -160,15 +255,36 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "organizationName": { "$ref": "#/$defs/stringFact" },
         "productDescription": { "$ref": "#/$defs/stringFact" },
         "targetCustomer": { "$ref": "#/$defs/stringFact" },
         "geography": { "$ref": "#/$defs/stringFact" },
         "stage": { "$ref": "#/$defs/stringFact" },
-        "proposedPrice": { "$ref": "#/$defs/moneyFact" },
+        "currentCommercialModel": { "$ref": "#/$defs/stringFact" },
         "priorities": {
           "type": "array",
           "uniqueItems": true,
           "items": { "$ref": "#/$defs/stringFact" }
+        }
+      }
+    },
+    "opportunity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposedChange"],
+      "properties": {
+        "proposedChange": { "$ref": "#/$defs/stringFact" },
+        "whyChange": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/opportunityEntry" }
+        },
+        "whyNow": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/opportunityEntry" }
+        },
+        "valueHypotheses": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/valueHypothesis" }
         }
       }
     },
@@ -352,7 +468,9 @@
     "economics": {
       "type": "object",
       "additionalProperties": false,
+      "required": ["scope"],
       "properties": {
+        "scope": { "const": "incremental" },
         "scenarios": {
           "type": "object",
           "additionalProperties": false,

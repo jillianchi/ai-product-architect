@@ -19,18 +19,23 @@ Use `docs/05-research-register.md` before relying on provider pricing, capabilit
 - Economics calculations must be deterministic and testable.
 - Provider facts must not come from LLM memory when they materially affect recommendations.
 - Preserve provenance for user facts, assumptions, benchmarks, provider facts, and derived values.
+- Keep evidence, statements, hypotheses, and modelling assumptions epistemically distinct.
 - Prefer validated deployment modules over arbitrary generated infrastructure.
 - Stripe implements the selected commercial model; Stripe does not define the commercial model.
+- Derive partner relevance from customer need; a partner may be weak or irrelevant.
 - Expose uncertainty. Create validation tasks/benchmarks rather than inventing precision.
+- Model the incremental impact of the proposed change rather than silently treating it as a greenfield business.
 - Do not expand V1 scope without recording the decision in `docs/04-decision-log.md`.
 
 ## First acceptance scenario
 
-> “I want to build an AI coding agent for teams and charge $20/month.”
+> “DevFlow operates a team developer platform and is considering adding a
+> repository-aware AI coding agent to improve retention and support a premium
+> offering.”
 
 Target flow:
 
-requirements → adaptive questions → architecture → economics → commercial model → Stripe mapping → AWS deployment specification
+current context → opportunity → evidence and information needs → incremental architecture → incremental economics → commercial change → partner relevance → optional AWS deployment specification
 
 ## Working discipline
 

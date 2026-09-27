@@ -1,158 +1,158 @@
 # AI Product Architect --- Product Thesis & Discovery
 
-**Status:** discovery baseline\
-**Last updated:** 26 September 2026
+**Status:** implementation baseline\
+**Last updated:** 27 September 2026
 
 ## 1. Origin
 
-The project began with a partnership question: can Stripe, a
-hyperscaler, and an LLM provider create something technically meaningful
-together in APAC using products and public interfaces that already
-exist, without depending on global product changes?
+The project began with a partnership question: can Stripe, a hyperscaler, and
+an LLM provider create something technically meaningful together in APAC using
+products and public interfaces that already exist, without depending on global
+product changes?
 
 The desired outcome is not co-marketing or a superficial reference
-architecture. It should create real customer value and, if successful,
-generate qualified production workloads for the participating platforms.
+architecture. It should create real customer value and, when relevant,
+generate qualified production workloads for participating platforms.
 
-## 2. Early hypotheses
+## 2. What changed the thesis
 
-Several ideas were considered:
+Requirements-to-architecture-to-IaC is already a crowded category. The more
+useful observation is that AI product value, technical architecture, and
+commercial architecture are unusually coupled.
 
--   an agent economic control plane / capability marketplace;
--   a multi-cloud AI architecture advisor;
--   an agent that converts requirements into cloud architecture, cost
-    estimates, and infrastructure-as-code;
--   a deployable architecture generator using cloud accelerators such as
-    AWS Generative AI Application Builder.
+Model choice, cloud services, token consumption, retries, tool use, human
+review, and workload distribution can materially change the incremental cost
+of a proposed capability. Those costs can change the viable product experience,
+price, billable unit, and expected customer value.
 
-The first concept was rejected as too dependent on new global product or
-protocol work. The architecture-agent direction was more regionally
-executable, but competitive research showed that
-requirements-to-architecture-to-IaC-to-deployment is already a crowded
-category.
+Architecture generation is therefore evidence within an opportunity analysis,
+not the product itself.
 
-## 3. What changed the thesis
-
-The useful observation was not that AI can generate architecture. It was
-that **AI product architecture and commercial architecture are unusually
-coupled**.
-
-Model choice, cloud services, token consumption, document length,
-retries, tool use, human review, and workload distribution can
-materially change cost to serve. A pricing model that looks sensible
-before those technical costs are understood can become structurally
-unprofitable.
-
-This suggests a different product boundary:
-
-> Design the technical architecture and commercial architecture
-> together, model the unit economics, validate uncertain decisions, and
-> produce a deployable implementation.
-
-Architecture generation becomes a means rather than the product.
-
-## 4. Current product thesis
+## 3. Current product thesis
 
 **Working name:** AI Product Architect
 
 **One-line proposition:**\
-Describe the AI product you want to build; the system designs a viable
-technical and commercial architecture, models its unit economics, and
-produces a deployable implementation.
+Evaluate a material AI capability for an existing digital product; connect the
+customer-value hypothesis and evidence to incremental technical architecture,
+economics, commercial design, partner relevance, validation, and optional
+deployment.
 
 The core loop is:
 
-Business idea → requirements → technical architecture ↔ unit economics ↔
-commercial architecture → validation → deployment.
+Current product/business context → proposed change → why change / why now /
+customer value → evidence and information needs → incremental architecture ↔
+economics ↔ commercial design → partner relevance → validation → optional
+deployment.
 
-After deployment, actual usage could eventually feed the loop again, but
-continuous production optimization is not a V1 requirement.
+Technical and economic analysis may strengthen, reshape, or reject the
+opportunity hypothesis.
 
-## 5. Why the partnership is real
+## 4. Primary user and information model
+
+The user may be:
+
+-   a seller or partner team member researching or preparing an account;
+-   someone from the company exploring a capability;
+-   another participant with partial knowledge of the company or product.
+
+V1 does not create separate seller and customer modes. It uses one progressive
+workflow whose precision follows the information available and its provenance.
+The system should produce useful analysis from sparse context and should never
+require a complete current architecture or perfect discovery data before doing
+so.
+
+Inputs may be user-provided facts or statements, source-backed evidence,
+explicit hypotheses, modelling assumptions, benchmarks, provider sources, and
+derived analysis. Absence means unknown. These epistemic states must remain
+distinguishable.
+
+## 5. Opportunity before solution
+
+The product should help answer, in roughly this order:
+
+1.  What is the current product and business context?
+2.  What change or capability is being considered?
+3.  Why might the customer change?
+4.  Why might they change now?
+5.  What customer value could result?
+6.  What evidence supports those claims and what remains uncertain?
+7.  What would the capability require technically?
+8.  What are its incremental economics?
+9.  How might the commercial model change?
+10. Which partner capabilities are relevant, if any, and why?
+11. What should be researched, modelled, asked, discovered, or deferred next?
+
+Why-change, why-now, and customer value are product inputs, not sales copy added
+after an architecture has been selected.
+
+## 6. Why the partnership can be real
 
 ### Hyperscaler
 
-The cloud provider supplies runtime infrastructure, storage, databases,
-networking, observability, security primitives, AI services, and
-potentially managed agent infrastructure. A successful recommendation
-can become an attributable workload with estimated and eventually actual
-cloud consumption.
+The cloud provider can supply incremental runtime infrastructure, storage,
+databases, networking, observability, security primitives, AI services, and
+agent infrastructure. Relevance depends on the proposed change and the
+customer's actual constraints.
 
 ### LLM provider
 
-For agentic products, model capability, price, context, caching,
-latency, tool use, and routing can materially affect both product
-quality and COGS. The provider therefore participates in a genuine
-architecture and economics decision rather than merely appearing as a
-logo.
+Model capability, price, context, caching, latency, and tool use can affect both
+product quality and incremental COGS. A model provider is relevant only when a
+validated model path contributes to the customer outcome.
 
 ### Stripe
 
-The technical cost structure can determine the appropriate commercial
-unit: pages, credits, processing units, included usage, or metered
-overage. Stripe Billing, meters, entitlements, payments, and related
-primitives implement that commercial architecture.
+The cost structure can imply a new commercial unit or pricing change. Stripe
+may expand an existing relationship, replace another implementation, enable a
+new commercial model, or be irrelevant. Stripe implements the selected
+commercial architecture; it does not define it.
 
-The key sequence is:
-
-Cost driver → billable unit → pricing model → Stripe implementation.
-
-## 6. What is differentiated
-
-The product is **not** primarily:
-
--   a generic AI cloud architect;
--   a diagram generator;
--   a Terraform generator;
--   a multi-cloud comparison website;
--   an AI app builder.
-
-The differentiated hypothesis is the closed loop between:
-
-1.  business model;
-2.  workload assumptions;
-3.  architecture/model strategy;
-4.  cost to serve;
-5.  pricing/billing design;
-6.  validation where evidence is insufficient;
-7.  deployable implementation.
+Partner relevance is derived from customer need, architecture, economics, and
+commercial design. The system must be able to conclude that a partner
+opportunity is weak or absent.
 
 ## 7. Product principles
 
+-   Start with the customer opportunity, not a predetermined partner fit.
 -   Normalize capabilities before mapping to providers.
 -   Use LLMs for reasoning, not as the database of provider facts.
 -   Use deterministic code for economics.
--   Preserve provenance for assumptions and user-provided facts.
+-   Model incremental impact explicitly.
+-   Preserve provenance and epistemic status.
 -   Prefer validated deployment patterns over arbitrary generated
     infrastructure.
 -   Expose uncertainty instead of inventing precision.
--   Treat a required benchmark or human handoff as a feature, not a
-    failure.
--   Build solution IP regionally; do not require new global product
+-   Treat research, scenario modelling, customer discovery, benchmarks, and
+    deferral as legitimate next actions.
+-   Build solution IP regionally without requiring new global product
     capabilities.
 
-## 8. Current V1 thesis
+## 8. V1 boundary
 
-V1 should prove one end-to-end loop using an **AGENT_SAAS** workload,
-AWS deployment, Stripe commerce, and supported model providers. The
-schemas remain provider-neutral so other clouds and workload patterns
-can be added later.
+V1 proves one end-to-end loop for an existing digital product considering an
+`AGENT_SAAS` capability. AWS remains the only deployment target, Stripe remains
+the commercial implementation when relevant, and supported model paths must be
+validated. The schemas remain provider-neutral.
 
-A second **ASYNC_AI** invoice-processing workload is retained as a
-cross-check that the abstraction generalizes beyond agent SaaS.
+Deployment is optional. When requested, it consumes an approved
+`ArchitectureSpec`; opportunity analysis does not create a separate approval
+gate.
 
-## 9. Success test
+`ASYNC_AI` remains the second validation pattern after the revised
+`AGENT_SAAS` loop works end to end.
 
-The prototype should be able to take:
+## 9. Canonical acceptance scenario
 
-> "I want to build an AI coding agent for teams and charge \$20/month."
+> "DevFlow operates a team developer platform and is considering adding a
+> repository-aware AI coding agent to improve retention and support a premium
+> offering."
 
-and reach:
+The same scenario must work with sparse information and with richer evidence,
+workload, commercial, and technical context. It should reach an explicit
+opportunity hypothesis, evidence gaps, incremental architecture and economics,
+commercial implications, honest partner relevance, next information needs,
+and—only when requested—an AWS deployment specification.
 
-structured requirements → adaptive questions → architecture → economics
-→ pricing strategy → Stripe implementation → AWS deployment
-specification.
-
-The project should be reconsidered if this workflow does not produce
-meaningfully better, more actionable output than a strong
-general-purpose LLM plus existing cloud accelerators.
+The project should be reconsidered if this workflow is not more actionable
+than a strong general-purpose LLM response plus existing cloud accelerators.
